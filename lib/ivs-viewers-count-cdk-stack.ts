@@ -1,16 +1,35 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Duration, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as events from 'aws-cdk-lib/aws-events';
+import * as targets from 'aws-cdk-lib/aws-events-targets';
+import * as path from 'path';
 
 export class IvsViewersCountCdkStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
+    const ivsViewersCountTable = new dynamodb.Table(this, "ivsViewersCountTable", {
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      partitionKey: { name: 'channel', type: dynamodb.AttributeType.STRING }
+    });
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'IvsViewersCountCdkQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    const ivsViewersCountFunction = new lambda.Function(this, "ivsViewersCountFunction", {
+      runtime: lambda.Runtime.NODEJS_14_X,
+      handler: "handler",
+      environment: {
+          TABLE_NAME: ivsViewersCountTable.tableName
+      },
+      code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/'))
+    });
+    ivsViewersCountTable.grantReadWriteData(ivsViewersCountFunction);
+
+    new events.Rule(this, "sampleRule", {
+      schedule: events.Schedule.rate(Duration.minutes(1)),
+      targets: [
+        new targets.LambdaFunction(ivsViewersCountFunction)
+      ]
+    });
   }
 }

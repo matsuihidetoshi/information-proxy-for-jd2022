@@ -11,11 +11,15 @@
     "cdk": "cdk"
   },
   "devDependencies": {
+    "@aws-cdk/aws-dynamodb": "^1.138.2",
+    "@aws-cdk/aws-events": "^1.138.2",
+    "@aws-cdk/aws-events-targets": "^1.138.2",
+    "@aws-cdk/aws-lambda-nodejs": "^1.138.2",
     "@types/jest": "^26.0.10",
     "@types/node": "10.17.27",
+    "aws-cdk": "2.5.0",
     "jest": "^26.4.2",
     "ts-jest": "^26.2.0",
-    "aws-cdk": "2.5.0",
     "ts-node": "^9.0.0",
     "typescript": "~3.9.7"
   },
