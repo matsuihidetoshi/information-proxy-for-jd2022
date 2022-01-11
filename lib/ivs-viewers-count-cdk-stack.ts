@@ -1,34 +1,42 @@
 import { Duration, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
-import * as events from 'aws-cdk-lib/aws-events';
-import * as targets from 'aws-cdk-lib/aws-events-targets';
-import * as path from 'path';
+import { Table, BillingMode, AttributeType } from 'aws-cdk-lib/aws-dynamodb';
+import { Rule, Schedule } from 'aws-cdk-lib/aws-events';
+import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 
 export class IvsViewersCountCdkStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const ivsViewersCountTable = new dynamodb.Table(this, "ivsViewersCountTable", {
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      partitionKey: { name: 'channel', type: dynamodb.AttributeType.STRING }
+    const ivsViewersCountTable = new Table(this, "ivsViewersCountTable", {
+      billingMode: BillingMode.PAY_PER_REQUEST,
+      partitionKey: { name: 'channel', type: AttributeType.STRING }
     });
 
-    const ivsViewersCountFunction = new lambda.Function(this, "ivsViewersCountFunction", {
-      runtime: lambda.Runtime.NODEJS_14_X,
-      handler: "handler",
+    const ivsViewersCountFunction = new NodejsFunction(this, "ivsViewersCountFunction", {
+      entry: "src/ivs-viewers-count-function.handler.ts",
       environment: {
           TABLE_NAME: ivsViewersCountTable.tableName
-      },
-      code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/'))
+      }
     });
     ivsViewersCountTable.grantReadWriteData(ivsViewersCountFunction);
+    ivsViewersCountFunction.addToRolePolicy(new PolicyStatement({
+      resources: [
+        'arn:aws:ivs:us-east-1:*:channel/*'
+      ],
+      actions: [
+        'ivs:ListChannels',
+        'ivs:ListStreams',
+        'ivs:PutMetadata'
+      ]
+    }));
 
-    new events.Rule(this, "sampleRule", {
-      schedule: events.Schedule.rate(Duration.minutes(1)),
+    new Rule(this, "ivsViewersCountRule", {
+      schedule: Schedule.rate(Duration.minutes(1)),
       targets: [
-        new targets.LambdaFunction(ivsViewersCountFunction)
+        new LambdaFunction(ivsViewersCountFunction)
       ]
     });
   }
