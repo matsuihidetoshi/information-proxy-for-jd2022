@@ -17,7 +17,9 @@
 
 ## 手順
 
-### ①Cloud9 セットアップ
+### 1. Cloud9 セットアップ
+- ディスクサイズ拡張
+  - **Cloud9** のデフォルト設定では、 **CDK** に必要なディスクサイズが確保されていないので、 [**こちら**]https://docs.aws.amazon.com/ja_jp/cloud9/latest/user-guide/move-environment.html#move-environment-resize) で紹介されている方法でディスクサイズを拡張します。
 - 必要パッケージインストール
   - typescript
     ```
