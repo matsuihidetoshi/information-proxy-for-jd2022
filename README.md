@@ -6,11 +6,21 @@
 
 **Amazon IVS** を使うと、簡単に自分のオリジナル配信サイトを構築できますが、配信視聴者数などの付随した情報をリアルタイムにクライアント側に表示しようとすると、それなりにアーキテクチャの設計・構築が必要になり、少し大変です。今回ご紹介する方法を使うと、非常に簡単にそれが実現できます！
 
-## Useful commands
+## 必要要件
 
- * `npm run build`   compile typescript to js
- * `npm run watch`   watch for changes and compile
- * `npm run test`    perform the jest unit tests
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk synth`       emits the synthesized CloudFormation template
+- **AWS** の有効なアカウント
+- 数十円程度の AWS 利用料
+- 各種バージョン
+  - **node.js**: v16.13.2
+  - **npm**: 8.1.2
+  - **cdk**: 2.3.0
+
+## 手順
+
+### ①Cloud9 セットアップ
+- 必要パッケージインストール
+  - typescript
+    ```
+    npm -g install typescript
+    ```
+  - 
