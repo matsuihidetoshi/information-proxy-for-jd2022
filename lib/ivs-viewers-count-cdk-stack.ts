@@ -1,4 +1,4 @@
-import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import { Duration, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { Table, BillingMode, AttributeType } from 'aws-cdk-lib/aws-dynamodb';
 import { Rule, Schedule } from 'aws-cdk-lib/aws-events';
@@ -12,7 +12,9 @@ export class IvsViewersCountCdkStack extends Stack {
 
     const ivsViewersCountTable = new Table(this, "ivsViewersCountTable", {
       billingMode: BillingMode.PAY_PER_REQUEST,
-      partitionKey: { name: 'channel', type: AttributeType.STRING }
+      partitionKey: { name: 'channel', type: AttributeType.STRING },
+      sortKey: { name: 'time', type: AttributeType.NUMBER },
+      removalPolicy: RemovalPolicy.DESTROY
     });
 
     const ivsViewersCountFunction = new NodejsFunction(this, "ivsViewersCountFunction", {

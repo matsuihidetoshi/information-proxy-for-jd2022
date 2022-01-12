@@ -15,7 +15,7 @@ const dynamodb = new DynamoDB({});
 const ivs = new IvsClient({});
 
 export const handler = async () => {
-  const tableName = 'ivsViewersCountTable';
+  const tableName = process.env.TABLE_NAME as string;
   const time = Date.now();
   const counts: { [key: string]: number } = {};
 
