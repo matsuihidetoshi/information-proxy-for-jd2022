@@ -4,7 +4,15 @@
 
 今回は、以前 [**Amazon Interactive Video Service (IVS) と AWS Amplify を使って自分だけのオリジナル配信サイトを作る！**](https://aws.amazon.com/jp/builders-flash/202107/amplify-ivs-streaming-website) の記事でもご紹介したオリジナル配信サイトにも利用できる、 [**Amazon Interactive Video Service (IVS)**](https://aws.amazon.com/jp/ivs) の**配信視聴者数のリアルタイム取得と表示**ができる機能を、 [**AWS Cloud Development Kit (AWS CDK)**](https://aws.amazon.com/jp/cdk) を使って、 **コマンド一発** で構築する方法をご紹介します！
 
-**Amazon IVS** を使うと、簡単に自分のオリジナル配信サイトを構築できますが、配信視聴者数などの付随した情報をリアルタイムにクライアント側に表示しようとすると、それなりにアーキテクチャの設計・構築が必要になり、少し大変です。今回ご紹介する方法を使うと、非常に簡単にそれが実現できます！
+**Amazon IVS** を使うと、簡単に自分のオリジナル配信サイトを構築できますが、配信視聴者数などの付随した情報をリアルタイムにクライアント側に表示しようとすると、それなりにアーキテクチャの設計・構築が必要になり、少し大変です。  
+今回ご紹介する方法を使うと、非常に簡単にそれが実現できます！
+
+## アーキテクチャ
+
+以前、 [**Amazon Interactive Video Service (IVS) と AWS Amplify を使って自分だけのオリジナル配信サイトを作る！**](https://aws.amazon.com/jp/builders-flash/202107/amplify-ivs-streaming-website) の記事でご紹介した部分も含めて、今回構築する配信サイトの視聴者数の取得、保存、表示する機能のアーキテクチャです。  
+例として以前の記事の内容と併せてご紹介していますが、 **IVS** を使った配信サイトであれば今回の内容を流用することが可能です！
+
+![ivs-viewers-count-cdk](https://user-images.githubusercontent.com/38583473/149286880-24e85caf-8899-4a4c-8cca-7703e292ec8f.png)
 
 ## 必要要件
 
@@ -19,7 +27,7 @@
 
 ### 1. Cloud9 セットアップ
 
-[**AWS Cloud9**](https://aws.amazon.com/jp/cloud9) を使えば、 Web ブラウザ経由で専用の開発環境を構築・利用できるので、誰でも簡単に同じスタートラインで開発を始められます。
+[**AWS Cloud9**](https://aws.amazon.com/jp/cloud9) を使えば、 Web ブラウザ経由で専用の開発環境を構築・利用できるので、誰でも簡単に同じスタートラインで開発を始められます。  
 今回は **Cloud9** を使ってハンズオンを実施するので、下記の手順に沿ってまずは **Cloud9** 環境のセットアップをしましょう。
 
 ***
