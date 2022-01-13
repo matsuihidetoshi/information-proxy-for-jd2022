@@ -18,6 +18,20 @@
 ## 手順
 
 ### 1. Cloud9 セットアップ
+
+[**AWS Cloud9**](https://aws.amazon.com/jp/cloud9) を使えば、 Web ブラウザ経由で専用の開発環境を構築・利用できるので、誰でも簡単に同じスタートラインで開発を始められます。
+今回は **Cloud9** を使ってハンズオンを実施するので、下記の手順に沿ってまずは **Cloud9** 環境のセットアップをしましょう。
+
+***
+
+![スクリーンショット 2022-01-12 15 02 09](https://user-images.githubusercontent.com/38583473/149281817-f29ba485-2b03-41b9-83fd-f1291c38b0cb.png)
+
+- [**AWS マネジメントコンソール**](console.aws.amazon.com) から、検索フォームに `cloud9` と入力し、 **Cloud9** をクリックします。
+
+***
+
+
+- 
 - ディスクサイズ拡張
   - **Cloud9** のデフォルト設定では、 **CDK** に必要なディスクサイズが確保されていないので、 [**こちら**]https://docs.aws.amazon.com/ja_jp/cloud9/latest/user-guide/move-environment.html#move-environment-resize) で紹介されている方法でディスクサイズを拡張します。
 - 必要パッケージインストール
