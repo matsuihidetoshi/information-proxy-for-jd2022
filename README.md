@@ -319,7 +319,7 @@
         });
         await dynamodb.send(batchWriteItem);
 
-        // ⑤ DynamoDB から直近 5 分の視聴者数を取得
+        // ⑤ DynamoDB から直近5分間の視聴者数を取得
         const queries = requestItems.map(item => {
           return new QueryCommand({
             TableName: tableName,
@@ -364,3 +364,12 @@
       return response;
     };
     ```
+
+    - ①で、リージョン全体のチャンネルの **ARN** を取得しています。
+    - ②で、実際に開始されたストリーミングの視聴者数を取得しています。
+    - ③で、視聴者数を DynamoDB に保存するために整形しています。
+    - ④で、 DynamoDB に視聴者数を保存しています。
+    - ⑤で、保存された過去5分間の視聴者数を取得しています。
+    - ⑥で、⑤で取得した過去5分間の視聴者数をカンマ(`,`)区切りの文字列データに変換し、 **Timed Metadata** として **IVS** に送信しています。
+
+***
