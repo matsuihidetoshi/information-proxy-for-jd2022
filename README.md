@@ -474,3 +474,35 @@
 
 #### Cloud9 環境の削除
 
+<img width="400" alt="スクリーンショット 2022-01-14 17 04 02" src="https://user-images.githubusercontent.com/38583473/149473870-8c072d04-6757-43b2-a2a6-6f810df8aca0.png">
+
+- **Cloud 9** 環境の左上の雲の中に **9** のマークをクリックし、 **Go To Your Dashboard** をクリックします。
+
+***
+
+<img width="1217" alt="スクリーンショット 2022-01-14 17 15 16" src="https://user-images.githubusercontent.com/38583473/149474626-22ef22fa-e6b2-4ff0-bca4-1161f84b1c1a.png">
+
+- **Delete** をクリックします。
+
+***
+
+<img width="632" alt="スクリーンショット 2022-01-14 17 16 54" src="https://user-images.githubusercontent.com/38583473/149474715-f3ca3f7d-4eee-4044-b646-356fc2beda2b.png">
+
+- **Delete** と入力し、 **Delete** をクリックします。
+
+これで、 **Cloud 9** 環境も削除されました。
+
+***
+
+## まとめ
+
+いかがでしたでしょうか？  
+**Amazon IVS** の **Timed Metadata** を使えば、任意のデータを **IVS** 側からクライアントに対して送信することができ、双方向のインタラクションを可能にしてくれます！  
+今回の様な配信視聴者数の表示だけでなく、
+
+- アンケート機能
+- 配信内容や配信者の情報表示のリアルタイム更新
+
+などの機能も実現できるので、今回の内容を参考にぜひ色々と試してみてください！  
+
+Happy Coding!
