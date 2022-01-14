@@ -14,6 +14,19 @@
 
 ![ivs-viewers-count-cdk](https://user-images.githubusercontent.com/38583473/149286880-24e85caf-8899-4a4c-8cca-7703e292ec8f.png)
 
+### 動作の流れ
+1. [**Amazon EventBridge**](https://aws.amazon.com/jp/eventbridge/) で、 [**AWS Lambda**](https://aws.amazon.com/jp/lambda/) の関数を定期呼出します(毎分1回)。
+2. 呼び出しされた **Lambda** 関数は、 **IVS** に取得者数を問い合わせします。
+3. **Lambda** 関数が、取得した視聴者数を [**Amazon DynamoDB**](https://aws.amazon.com/jp/dynamodb/) に保存します。
+    - 単純に視聴者数を取得・表示するだけならデータを永続化する必要はありませんが、下記の様な場合が考えられるので保存しておくと便利です。
+      - 視聴者数データを別の用途に利用したい
+      - 過去期間の視聴者数の増減に応じて、表示の仕方を変えたい（視聴者数が増加傾向なら盛り上がってることを表す表示をしたい、など）
+4. **Lambda** 関数が、視聴者数を **Amazon DynamoDB** から過去の一定期間(5分)分も含めて取得します。
+5. **Lambda** 関数が、 **DynamoDB** から取得した5分間の視聴者数を、 **IVS** に **Timed Metadata**\* として送信します。
+6. 配信視聴クライアント（Web ブラウザ)側で、受け取った **Timed Metadata** を処理して、1分ごとの視聴者数をリアルタイムで表示します。
+
+\* **Timed Metadata**: 任意の時間指定データをクライアント側に送信できる **IVS** の機能。
+
 ## 必要要件
 
 - **AWS** の有効なアカウント
