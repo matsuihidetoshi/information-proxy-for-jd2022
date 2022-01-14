@@ -43,6 +43,8 @@
 [**AWS Cloud9**](https://aws.amazon.com/jp/cloud9) を使えば、 Web ブラウザ経由で専用の開発環境を構築・利用できるので、誰でも簡単に同じスタートラインで開発を始められます。  
 今回は **Cloud9** を使ってハンズオンを実施するので、下記の手順に沿ってまずは **Cloud9** 環境のセットアップをしましょう。
 
+#### **Cloud9** 環境作成
+
 ***
 
 ![スクリーンショット 2022-01-12 15 02 09](https://user-images.githubusercontent.com/38583473/149441839-87128991-a90a-4032-aa75-b62ff2c758a2.png)
@@ -69,5 +71,88 @@
 
 ***
 
-- ディスクサイズ拡張
-  - **Cloud9** のデフォルト設定では、 **CDK** に必要なディスクサイズが確保されていないので、 [**こちら**]https://docs.aws.amazon.com/ja_jp/cloud9/latest/user-guide/move-environment.html#move-environment-resize) で紹介されている方法でディスクサイズを拡張します。
+![スクリーンショット 2022-01-12 15 03 52](https://user-images.githubusercontent.com/38583473/149457678-983fd82d-cfe1-428f-89a9-341828e64ff9.png)
+
+- **Create environment** をクリックします。
+
+***
+
+#### ディスクサイズ拡張
+
+**Cloud9** のデフォルト設定では、 **CDK** の実行に必要なディスクサイズが確保されていないので、 [**こちら**](https://docs.aws.amazon.com/ja_jp/cloud9/latest/user-guide/move-environment.html#move-environment-resize) で紹介されている方法でディスクサイズを拡張します。
+
+***
+
+![スクリーンショット 2022-01-12 15 07 55](https://user-images.githubusercontent.com/38583473/149458029-757427e9-7d7e-417c-9e0f-302d7235bcf2.png)
+
+- ディスクサイズ変更用スクリプト、 **resize.sh** を作成します。
+
+***
+
+- 作成した **resize.sh** に、下記を記述して保存します。
+
+    ```bash
+    #!/bin/bash
+
+    # Specify the desired volume size in GiB as a command line argument. If not specified, default to 20 GiB.
+    SIZE=${1:-20}
+
+    # Get the ID of the environment host Amazon EC2 instance.
+    INSTANCEID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+    REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+
+    # Get the ID of the Amazon EBS volume associated with the instance.
+    VOLUMEID=$(aws ec2 describe-instances \
+      --instance-id $INSTANCEID \
+      --query "Reservations[0].Instances[0].BlockDeviceMappings[0].Ebs.VolumeId" \
+      --output text \
+      --region $REGION)
+
+    # Resize the EBS volume.
+    aws ec2 modify-volume --volume-id $VOLUMEID --size $SIZE
+
+    # Wait for the resize to finish.
+    while [ \
+      "$(aws ec2 describe-volumes-modifications \
+        --volume-id $VOLUMEID \
+        --filters Name=modification-state,Values="optimizing","completed" \
+        --query "length(VolumesModifications)"\
+        --output text)" != "1" ]; do
+    sleep 1
+    done
+
+    #Check if we're on an NVMe filesystem
+    if [[ -e "/dev/xvda" && $(readlink -f /dev/xvda) = "/dev/xvda" ]]
+    then
+      # Rewrite the partition table so that the partition takes up all the space that it can.
+      sudo growpart /dev/xvda 1
+
+      # Expand the size of the file system.
+      # Check if we're on AL2
+      STR=$(cat /etc/os-release)
+      SUB="VERSION_ID=\"2\""
+      if [[ "$STR" == *"$SUB"* ]]
+      then
+        sudo xfs_growfs -d /
+      else
+        sudo resize2fs /dev/xvda1
+      fi
+
+    else
+      # Rewrite the partition table so that the partition takes up all the space that it can.
+      sudo growpart /dev/nvme0n1 1
+
+      # Expand the size of the file system.
+      # Check if we're on AL2
+      STR=$(cat /etc/os-release)
+      SUB="VERSION_ID=\"2\""
+      if [[ "$STR" == *"$SUB"* ]]
+      then
+        sudo xfs_growfs -d /
+      else
+        sudo resize2fs /dev/nvme0n1p1
+      fi
+    fi
+    ```
+
+***
