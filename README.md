@@ -212,10 +212,10 @@
           }
         });
 
-        // ④Lambda 関数に、　DynamoDB の R/W 権限を付与
+        // ③Lambda 関数に、　DynamoDB の R/W 権限を付与
         ivsViewersCountTable.grantReadWriteData(ivsViewersCountFunction);
         
-        // ⑤Lambda 関数に、 IVS へのアクセス権限を付与
+        // ④Lambda 関数に、 IVS へのアクセス権限を付与
         ivsViewersCountFunction.addToRolePolicy(new PolicyStatement({
           resources: [
             'arn:aws:ivs:us-east-1:*:channel/*'
@@ -227,7 +227,7 @@
           ]
         }));
 
-        // ⑥Lambda 関数の定期呼び出し用の EventBridge ルールを作成
+        // ⑤Lambda 関数の定期呼び出し用の EventBridge ルールを定義
         new Rule(this, "ivsViewersCountRule", {
           schedule: Schedule.rate(Duration.minutes(1)),
           targets: [
@@ -238,3 +238,17 @@
     }
     ```
 
+    - ①で、視聴者数保存用の **DynamoDB** テーブルを作成しています。
+        - 集計等に便利なように、下記の Key を指定しています。
+            - `partitionKey` に、 **IVS** のチャンネルの **ARN** を保存するためのフィールド、 `channel` を指定
+            - `sortKey` に、視聴者数取得時刻を保存するためのフィールド、 `time` を指定
+        - 今回の CDK で構築するリソース全体の作成・削除に合わせて、テーブルも削除されるように, `removalPolicy: RemovalPolicy.DESTROY` を指定しています。
+    - ②で、 Lambda 関数を作成しています。
+        - `NodejsFunction` クラスを使用して、 Lambda の関数コード `src/ivs-viewers-count-function.handler.ts` を `entry` に指定しています。これにより、 **TypeScript** のコードをデプロイ時に自動的にトランスパイルしてくれます。
+        - `environment` オプションに **DynamoDB** のテーブル名を指定し、環境変数から **DynamoDB** テーブル名を読み込み、関数からアクセスできる様にしています。
+    - ③で、 Lambda 関数に　DynamoDB の R/W 権限を付与しています。
+    - ④で、 Lambda 関数に IVS へのアクセス権限を付与しています。
+        - `resources` に `'arn:aws:ivs:us-east-1:*:channel/*'` を指定していますが、これにより `us-east-1` リージョンの全ての **IVS** のチャンネルにアクセスできます(関数コードの仕様上、上限は 50 チャンネルまでです)。
+    - ⑤で、 Lambda 関数を定期呼び出しする EventBridge のルールを定義しています(1分毎に実行)。
+
+***
