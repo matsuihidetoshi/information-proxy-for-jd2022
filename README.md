@@ -404,10 +404,35 @@
     cdk deploy
     ```
 
+***
+
 - 下記の通り質問されるので、 `y` を入力して `Enter` を押下してください。
 
     ```bash
     Do you wish to deploy these changes (y/n)? y
+    ```
+
+- 下記の通り表示されれば、リソースのデプロイ成功です！
+
+    ```bash
+    ✅  IvsViewersCountCdkStack
+    ```
+
+***
+
+### 4. 配信視聴者数の表示
+
+今回の内容は **3** までで完了ですが、せっかくなので以前の [**Amazon Interactive Video Service (IVS) と AWS Amplify を使って自分だけのオリジナル配信サイトを作る！**](https://aws.amazon.com/jp/builders-flash/202107/amplify-ivs-streaming-website) の記事で紹介したサイトに視聴者数を表示してみましょう。
+
+***
+
+- まずは [**以前の記事**](https://aws.amazon.com/jp/builders-flash/202107/amplify-ivs-streaming-website) の通り、配信サイトを構築しましょう。
+
+***
+
+- 次に、[**以前の記事**](https://aws.amazon.com/jp/builders-flash/202107/amplify-ivs-streaming-website) のソースコードの下記箇所にコードを追記します。
+
+    ```bash
     ```
 
 ***
