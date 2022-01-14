@@ -443,3 +443,34 @@
 <img width="1440" alt="スクリーンショット 2022-01-14 16 51 34" src="https://user-images.githubusercontent.com/38583473/149471792-2366ab42-ebb2-4683-9dbd-67e08ab5f0aa.png">
 
 ***
+
+### 5. リソースの削除
+
+せっかく動いたところで名残惜しいですが、リソースの削除方法も紹介します。
+
+***
+
+#### 今回の機能のリソースの削除
+
+- 下記のコマンドを実行してください。
+
+    ```bash
+    cdk destroy
+    ```
+
+- 下記の通り質問されるので、 `y` を入力して `Enter` を押下してください。
+
+    ```bash
+    Are you sure you want to delete: IvsViewersCountCdkStack (y/n)? y
+    ```
+
+- 下記の通り表示されれば、削除成功です。
+
+    ```bash
+    ✅  IvsViewersCountCdkStack: destroyed
+    ```
+
+***
+
+#### Cloud9 環境の削除
+
