@@ -440,7 +440,7 @@
 
 - しばらく( **EventBridge** の関数呼び出しサイクルの関係上、最大1分)待ってから、下記の通り視聴者数が表示されれば成功です！
 
-<img width="1440" alt="スクリーンショット 2022-01-14 16 51 34" src="https://user-images.githubusercontent.com/38583473/149471792-2366ab42-ebb2-4683-9dbd-67e08ab5f0aa.png">
+<img width="1440" alt="スクリーンショット 2022-01-14 16 51 34" src="https://user-images.githubusercontent.com/38583473/149473587-00e5d683-ed90-45f4-9c74-03ca1b59aec3.png">
 
 ***
 
