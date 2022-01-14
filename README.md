@@ -51,5 +51,23 @@
 
 ***
 
+![スクリーンショット 2022-01-12 15 02 23](https://user-images.githubusercontent.com/38583473/149443248-141dde0d-f164-4256-a2ca-fb3bb84fdcd2.png)
+
+- **Create environment** をクリックします。
+
+***
+
+![スクリーンショット 2022-01-12 15 02 47](https://user-images.githubusercontent.com/38583473/149443453-28a49f10-bd95-4ff2-a096-6f3432a07d29.png)
+
+- **Name** に任意の環境名(今回は `ivs-cdk-environment` としています)を入力し、 **Next step** をクリックします。
+
+***
+
+![スクリーンショット 2022-01-12 15 03 41](https://user-images.githubusercontent.com/38583473/149443740-508d790b-15fb-44d7-a2e4-e348bf888070.png)
+
+- **Instance type** は **t3.small** を選択し、それ以外はデフォルトのまま **Next step** をクリックします。
+
+***
+
 - ディスクサイズ拡張
   - **Cloud9** のデフォルト設定では、 **CDK** に必要なディスクサイズが確保されていないので、 [**こちら**]https://docs.aws.amazon.com/ja_jp/cloud9/latest/user-guide/move-environment.html#move-environment-resize) で紹介されている方法でディスクサイズを拡張します。
