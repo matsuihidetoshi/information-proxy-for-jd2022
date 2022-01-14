@@ -246,7 +246,7 @@
     - ②で、 Lambda 関数を作成しています。
         - `NodejsFunction` クラスを使用して、 Lambda の関数コード `src/ivs-viewers-count-function.handler.ts` を `entry` に指定しています。これにより、 **TypeScript** のコードをデプロイ時に自動的にトランスパイルしてくれます。
         - `environment` オプションに **DynamoDB** のテーブル名を指定し、環境変数から **DynamoDB** テーブル名を読み込み、関数からアクセスできる様にしています。
-    - ③で、 Lambda 関数に　DynamoDB の R/W 権限を付与しています。
+    - ③で、 Lambda 関数に DynamoDB の R/W 権限を付与しています。
     - ④で、 Lambda 関数に IVS へのアクセス権限を付与しています。
         - `resources` に `'arn:aws:ivs:us-east-1:*:channel/*'` を指定していますが、これにより `us-east-1` リージョンの全ての **IVS** のチャンネルにアクセスできます(関数コードの仕様上、上限は 50 チャンネルまでです)。
     - ⑤で、 Lambda 関数を定期呼び出しする EventBridge のルールを定義しています(1分毎に実行)。
