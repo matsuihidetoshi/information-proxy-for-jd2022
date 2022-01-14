@@ -426,13 +426,20 @@
 
 ***
 
-- まずは [**以前の記事**](https://aws.amazon.com/jp/builders-flash/202107/amplify-ivs-streaming-website) の通り、配信サイトを構築しましょう。
+- まずは [**以前の記事**](https://aws.amazon.com/jp/builders-flash/202107/amplify-ivs-streaming-website) の **3** までの手順通り、配信サイトを構築しましょう。
 
 ***
 
-- 次に、[**以前の記事**](https://aws.amazon.com/jp/builders-flash/202107/amplify-ivs-streaming-website) のソースコードの下記箇所にコードを追記します。
+- 次に、[**以前の記事**](https://aws.amazon.com/jp/builders-flash/202107/amplify-ivs-streaming-website) のソースコードを、下記のブランチに切り替え、アプリケーションを再起動します。
 
     ```bash
+    # ctrl + c でアプリケーションを停止してから
+    git checkout feature/add-viewers-count
+    npm run dev
     ```
+
+- しばらく( **EventBridge** の関数呼び出しサイクルの関係上、最大1分)待ってから、下記の通り視聴者数が表示されれば成功です！
+
+<img width="1440" alt="スクリーンショット 2022-01-14 16 51 34" src="https://user-images.githubusercontent.com/38583473/149471792-2366ab42-ebb2-4683-9dbd-67e08ab5f0aa.png">
 
 ***
