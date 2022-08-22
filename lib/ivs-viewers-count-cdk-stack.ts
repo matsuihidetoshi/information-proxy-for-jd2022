@@ -26,7 +26,7 @@ export class IvsViewersCountCdkStack extends Stack {
     ivsViewersCountTable.grantReadWriteData(ivsViewersCountFunction);
     ivsViewersCountFunction.addToRolePolicy(new PolicyStatement({
       resources: [
-        'arn:aws:ivs:us-east-1:*:channel/*'
+        'arn:aws:ivs:ap-northeast-1:*:channel/*'
       ],
       actions: [
         'ivs:ListChannels',

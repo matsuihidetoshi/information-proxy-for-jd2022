@@ -5,5 +5,5 @@ import { IvsViewersCountCdkStack } from '../lib/ivs-viewers-count-cdk-stack';
 
 const app = new cdk.App();
 new IvsViewersCountCdkStack(app, 'IvsViewersCountCdkStack', {
-  env: { region: 'us-east-1' }
+  env: { region: 'ap-northeast-1' }
 });
